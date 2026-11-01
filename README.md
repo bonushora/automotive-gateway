@@ -24,3 +24,17 @@ IMPLEMENTATION=NOT_STARTED
 PHYSICAL_QUALIFICATION=NOT_AUTHORIZED
 
 Nenhuma conexao fisica com veiculo esta autorizada.
+
+## Key integration scope — v0.2
+
+Automotive Gateway also targets authorized automotive
+key-transponder preparation and vehicle key registration.
+
+These capabilities require dedicated compatible hardware,
+legitimate authorization and manufacturer-supported
+procedures.
+
+Architecture:
+[Architecture v0.2](architecture/automotive-gateway-architecture-v0.2.md)
+
+Physical operations remain NOT_AUTHORIZED.
