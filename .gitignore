@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+.artifacts/
+build/
+dist/
+.dart_tool/
+.flutter-plugins*
+**/build/
+**/.gradle/
+*.log
+*.pem
+*.key
+.DS_Store
