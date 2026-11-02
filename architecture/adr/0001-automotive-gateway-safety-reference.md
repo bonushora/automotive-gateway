@@ -30,10 +30,23 @@ A ESP32-S3 N16R8 e o SN65HVD230 (3,3 V) são apropriados para ensaios CAN cláss
 
 Fontes públicas: https://www.boschaftermarket.com/ ; https://www.vector.com/int/en/products/products-a-z/hardware/network-interfaces/vn16xx/ ; https://intrepidcs.com/products/vehicle-network-adapters/valuecan-4/valuecan-4-industrial-specifications/ ; https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-reference/peripherals/twai.html ; https://www.ti.com/product/SN65HVD230
 
+## Prioridade P0 — Proteção USB do computador host
+
+**Decisão prioritária:** `HOST_USB_PROTECTION=REQUIRED_BEFORE_EXTERNAL_POWER_OR_VEHICLE_TESTS`.
+
+O computador de desenvolvimento é um ativo protegido. Antes de testes com alimentação externa independente ou com o veículo, exigir revisão do esquema de alimentação e terras, prevenção de retorno de tensão pela USB (*backfeed*), proteção contra sobrecorrente e curtos, e validação física de proteção adequada ao host.
+
+Um isolador USB poderá ser empregado somente após confirmar a compatibilidade com o modo USB, a velocidade, a interface de programação e as necessidades de alimentação da ESP32-S3 concreta. Um hub com limitação de corrente não é necessariamente isolador galvânico; nenhum deles substitui a proteção elétrica do CAN. Não há garantia de risco zero.
+
+A primeira ligação de uma ESP32-S3 isolada, sem outros módulos ou fontes, pode ser realizada após inspeção visual e cuidados de alimentação. Antes de adicionar transceptores ou protoboard, conferir pinagem, ausência de curtos e tensões. Não combinar alimentação externa e USB do computador sem proteção projetada e qualificada.
+
+**Prioridade de execução:** o gate AG-S00 precede testes alimentados externamente e qualquer conexão veicular; comprar proteção não testada não satisfaz o gate.
+
 ## Gates de aceitação
 
 | Gate | Evidência exigida |
 | --- | --- |
+| AG-S00 (P0) | Proteção do host USB: revisão de alimentação, GND, VBUS, backfeed e sobrecorrente; medições e compatibilidade da proteção antes de fonte externa/veículo |
 | AG-S01 | Identificação física da ESP32-S3, pinagem e encaixe da expansão |
 | AG-S02 | Alimentação USB/3,3 V, continuidade, ausência de curto e pinagem TXD/RXD |
 | AG-S03 | CAN clássico em bancada com segundo controlador, terminação correta, erros e recuperação |
@@ -60,6 +73,8 @@ HARDWARE_ASSEMBLY=NOT_CLAIMED
 AUTOMOTIVE_TRANSCEIVER=NOT_SELECTED
 HARDWARE_TX_INTERLOCK=REQUIRED_FOR_FUTURE_PASSIVE_MODE
 ELECTRICAL_PROTECTION=NOT_QUALIFIED
+HOST_USB_PROTECTION=REQUIRED_BEFORE_EXTERNAL_POWER_OR_VEHICLE_TESTS
+HOST_USB_PROTECTION_QUALIFICATION=PENDING
 INDEPENDENT_SAFETY_REVIEW=REQUIRED
 VEHICLE_CONNECTION=BLOCKED
 CAN_ACTIVE_TRANSMISSION=BENCH_ONLY
